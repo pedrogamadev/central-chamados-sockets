@@ -1,0 +1,110 @@
+# Central de Chamados via Sockets (Cliente-Servidor)
+
+Sistema de **Central de Chamados** desenvolvido para a disciplina de **Sistemas Distribuídos**, implementado em arquitetura **cliente-servidor** utilizando **sockets TCP** em **Node.js/TypeScript**.
+
+O projeto é composto por dois programas executáveis:
+
+- **Servidor de Chamados**: gerencia os chamados em memória, recebendo requisições via socket.
+- **Cliente CLI (linha de comando)**: permite que o usuário **abra**, **liste**, **consulte** e **atualize** o status de chamados, comunicando-se com o servidor pela rede.
+
+---
+
+## 1. Objetivos do Projeto
+
+- Demonstrar, na prática, uma aplicação **distribuída** com
+  - processos **Cliente** e **Servidor** separados;
+  - comunicação via **Sockets TCP**.
+- Implementar um sistema simples porém útil: uma **Central de Chamados**, em vez de exemplos triviais (como calculadora).
+- Atender aos requisitos típicos da disciplina de Sistemas Distribuídos:
+  - uso de sockets (TCP);
+  - dois executáveis distintos;
+  - comunicação cliente-servidor;
+  - interface (mesmo simples) para interação do usuário no lado cliente.
+
+---
+
+## 2. Arquitetura Geral
+
+A arquitetura é do tipo **cliente-servidor distribuída**, porém cada programa (cliente e servidor) é internamente monolítico.
+
+- **Servidor**
+  - Rodando em `localhost` (ou `127.0.0.1`) em uma porta configurável (ex.: `5000`).
+  - Mantém em memória uma lista de **Chamados**.
+  - Processa requisições vindas do cliente e envia respostas.
+
+- **Cliente CLI**
+  - Programa em modo texto (terminal) que se conecta ao servidor via **TCP**.
+  - Exibe menus e opções para o usuário final.
+  - Envia requisições estruturadas ao servidor e mostra as respostas formatadas.
+
+### 2.1. Entidade Chamado
+
+Cada **Chamado** possui os campos:
+
+- `id` (number)
+- `titulo` (string)
+- `descricao` (string)
+- `status` (`ABERTO` | `EM_ATENDIMENTO` | `FECHADO`)
+- `prioridade` (`BAIXA` | `MEDIA` | `ALTA`)
+- `criadoEm` (string/ISO)
+- `solicitante` (string)
+
+---
+
+## 3. Tecnologias Utilizadas
+
+- **Linguagem:**  
+  - [Node.js](https://nodejs.org/) (versão LTS recomendada) + [TypeScript](https://www.typescriptlang.org/)
+- **Sockets TCP:**  
+  - Módulo nativo do Node: [`net`](https://nodejs.org/api/net.html)
+- **CLI (interface em linha de comando):**
+  - Módulo nativo `readline` ou biblioteca como [`inquirer`](https://www.npmjs.com/package/inquirer) (opcional)
+- **Gerenciamento de pacotes:**
+  - `npm` (padrão)
+
+---
+
+## 4. Estrutura de Pastas
+
+Estrutura sugerida do repositório:
+
+```text
+central-chamados-sockets/
+  README.md
+  package.json          # opcional para scripts globais
+
+  server/
+    package.json
+    tsconfig.json
+    src/
+      index.ts          # ponto de entrada do servidor
+      server.ts         # configuração do servidor TCP
+      connectionHandler.ts
+      protocol/
+        messageTypes.ts
+        parser.ts
+        serializer.ts
+      domain/
+        Chamado.ts
+      services/
+        ChamadoService.ts
+      storage/
+        InMemoryChamadoRepository.ts
+
+  client/
+    package.json
+    tsconfig.json
+    src/
+      index.ts          # ponto de entrada do cliente
+      ui/
+        mainMenu.ts     # loop principal de interação
+        prompts.ts      # perguntas ao usuário
+      network/
+        clientConnection.ts
+        sendRequest.ts
+      protocol/
+        messageTypes.ts
+        serializer.ts
+        parser.ts
+      models/
+        Chamado.ts
