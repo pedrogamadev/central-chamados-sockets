@@ -133,6 +133,28 @@
   box-shadow: 0 6px 12px rgba(15, 23, 42, 0.05);
 }
 
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+  color: #475569;
+}
+
+.message-meta .author {
+  font-weight: 600;
+}
+
+.message-meta .timestamp {
+  font-variant-numeric: tabular-nums;
+}
+
+.message-text {
+  margin: 0;
+  color: #0f172a;
+}
+
 .empty {
   margin: 0;
   color: #475569;

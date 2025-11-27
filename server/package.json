@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src/index.ts",
+    "dev:tcp": "ts-node-dev src/tcpServer.ts",
     "dev:chat": "ts-node-dev src/chatWebSocketServer.ts",
     "build": "tsc",
     "start": "node dist/index.js"
